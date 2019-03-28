@@ -9,6 +9,10 @@ import bodyParser from 'body-parser';
 import { configureStore } from '../shared/store';
 import serverRender from './render';
 import paths from '../../config/paths';
+import { isWebApiCall, createPageResponseReq as createFetchReq } from './middleware/helpers';
+
+import routeController from './middleware/routes/routeController';
+import { fetchMultiApiRes, handleError } from './middleware/api_handlers';
 
 require('dotenv').config();
 
@@ -27,9 +31,22 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
+// app.use(router);
+
 app.use((req, res, next) => {
-    req.store = configureStore();
-    return next();
+    if (isWebApiCall(req.query)) {
+        console.log('34');
+        routeController.fetchWebAPIResponse(req, res);
+    } else {
+        //fetch response here and build store from API
+        fetchMultiApiRes(req, res).then((data) => {
+            req.store = configureStore({ initialState: { app: data } });
+            req.myData = data;
+            console.log(req.store);
+            return next();
+        });
+        // .catch(handleError);
+    }
 });
 
 const manifestPath = path.join(paths.clientBuild, paths.publicPath);

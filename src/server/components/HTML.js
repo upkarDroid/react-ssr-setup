@@ -33,14 +33,15 @@ export default class HTML extends React.Component<PropsT> {
                     {css.map((href) => {
                         return <link key={href} rel="stylesheet" href={href} />;
                     })}
+                </head>
+                <body>
+                    <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
+
                     <script
                         dangerouslySetInnerHTML={{
                             __html: `window.__PRELOADED_STATE__ = ${state}`,
                         }}
                     />
-                </head>
-                <body>
-                    <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
                     {scripts.map((src) => {
                         return <script key={src} src={src} />;
                     })}

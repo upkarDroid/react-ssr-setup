@@ -30,7 +30,8 @@ const App = (props: PropsT) => {
             <Helmet defaultTitle="React SSR Starter" titleTemplate="%s – React SSR Starter" />
 
             <h1>
-                <ReactLogo className={css.reactLogo} /> React + Express – SSR Starter
+                {/* <ReactLogo className={css.reactLogo} />*/}
+                React + Express – SSR Starter
             </h1>
 
             <Features />

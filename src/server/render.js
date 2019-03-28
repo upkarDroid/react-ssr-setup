@@ -18,6 +18,7 @@ const serverRenderer = () => (req, res) => {
     );
 
     const state = JSON.stringify(req.store.getState());
+    console.log(state);
 
     return res.send(
         '<!doctype html>' +
